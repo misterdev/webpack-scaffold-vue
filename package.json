@@ -1,0 +1,28 @@
+{
+  "name": "webpack-scaffold-vue",
+  "version": "1.0.0",
+  "description": "Webpack scaffold for vuejs",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misterdev/webpack-scaffold-vue.git"
+  },
+  "keywords": [
+    "webpack",
+    "webpack-cli",
+    "scaffold",
+    "webpack-scaffold",
+    "vue"
+  ],
+  "author": "Devid Farinelli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/misterdev/webpack-scaffold-vue/issues"
+  },
+  "homepage": "https://github.com/misterdev/webpack-scaffold-vue#readme",
+  "dependencies": {
+    "@webpack-cli/webpack-scaffold": "^0.1.5",
+    "yeoman-generator": "^3.2.0"
+  }
+}
