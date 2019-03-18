@@ -23,6 +23,7 @@
   "homepage": "https://github.com/misterdev/webpack-scaffold-vue#readme",
   "dependencies": {
     "@webpack-cli/webpack-scaffold": "^0.1.5",
+    "np": "^4.0.2",
     "yeoman-generator": "^3.2.0"
   }
 }

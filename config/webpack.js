@@ -1,30 +1,30 @@
 module.exports = (answers) => {
-	const { name, entry, inFolder, outFolder, assetsFolder } = answers;
+	const { name, entry, inFolder: src, outFolder: dist, publicFolder } = answers;
 
 	return {
-		entry: `"${inFolder}/${entry}.js"`,
+		entry: `"${src}/${entry}.js"`,
 		mode: '"development"',
 		module: {
 		  rules: [
 			{
-			  test: "/\.js$/",
+			  test: "/\\.js$/",
 			  exclude: "/node_modules/",
 			  loader: '"babel-loader"',
 			},
 			{
-			  test: "/\.vue$/",
+			  test: "/\\.vue$/",
 			  exclude: "/node_modules/",
 			  loader: '"vue-loader"',
 			},
 			{
-			  test: "/\.(png|jpe?g|gif|webp)(\?.*)?$/",
+			  test: "/\\.(png|jpe?g|gif|webp)(\\?.*)?$/",
 			  loader: '"file-loader"',
 			},
 			{
-			  test: "/\.css$/",
+			  test: "/\\.css$/",
 			  oneOf: [
 				{
-				  resourceQuery: "/\?vue/",
+				  resourceQuery: "/\\?vue/",
 				  use: [
 					{
 					  loader: '"vue-style-loader"',
@@ -42,15 +42,14 @@ module.exports = (answers) => {
 		  "new VueLoaderPlugin()",
 		  `new HtmlWebpackPlugin({
 			templateParameters: {
-			  BASE_URL: '/',
 			  PROJECT_NAME: "${name}"
 			},
-			template: './${assetsFolder}/index.html',
+			template: './${publicFolder}/index.html',
 		  })`,
 		  `new CopyWebpackPlugin([
 			{
-			  from: './${assetsFolder}',
-			  to: './${outFolder}',
+			  from: './${publicFolder}',
+			  to: './${dist}',
 			  toType: 'dir',
 			  ignore: ['.DS_Store'],
 			},

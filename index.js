@@ -1,5 +1,5 @@
 const Generator = require('yeoman-generator');
-const { List, Input } = require('@webpack-cli/webpack-scaffold');
+const { List, Input, InputValidate } = require('@webpack-cli/webpack-scaffold');
 
 const createWebpackConfig = require('./config/webpack');
 const createPackageJson = require('./config/package-json');
@@ -24,19 +24,28 @@ module.exports = class WebpackGenerator extends Generator {
 		this.defaults = {
 			name: 'my-vue-project',
 			inFolder: './src',
-			entry: 'index',
+			entry: 'main',
 			outFolder: './dist',
-			assetsFolder: './public'
+			publicFolder: './public'
 		}
 	}
 
 	prompting() {
+		const validateName = (value) => {
+			// If it contains a space
+			if (value.indexOf(' ') > 0) {
+				return `Invalid name: spaces are not allowed, try something like ${value.toLowerCase().replace(' ', '-')}`
+			} else {
+				return true;
+			}
+		}
+
 		return this.prompt([
-			Input('name', 'You are creating a new Vue project! How do you want to name it? (my-vue-project)'),
+			InputValidate('name', 'You are creating a new Vue project! How do you want to name it? (my-vue-project)', validateName),
 			Input('inFolder', 'Which folder will your source code be in? (./src)'),
-			Input('entry', 'Which is the entry point of your app? (index)'),
+			Input('entry', 'Which is the entry point of your app? (main)'),
 			Input('outFolder', 'Which folder will your generated bundles be in? (./dist)'),
-			Input('assetsFolder', 'Which folder will your public assets be in? (./public)'),
+			Input('publicFolder', 'Which folder will your public assets be in? (./public)'),
 			List('manager', 'Which package manager do you prefer?', ['yarn', 'npm'])
 		]).then (answers => {
 			
@@ -45,9 +54,8 @@ module.exports = class WebpackGenerator extends Generator {
 			this.answers.entry = (answers.entry !== '') ? answers.entry : this.defaults.entry;
 			this.answers.inFolder = (answers.inFolder !== '') ? answers.inFolder : this.defaults.inFolder;
 			this.answers.outFolder = (answers.outFolder !== '') ? answers.outFolder : this.defaults.outFolder;
-			this.answers.assetsFolder = (answers.assetsFolder !== '') ? answers.assetsFolder : this.defaults.assetsFolder;
+			this.answers.publicFolder = (answers.publicFolder !== '') ? answers.publicFolder : this.defaults.publicFolder;
 
-			
 			this.manager[this.answers.manager] = true;
 			this.options.env.configuration.dev.webpackOptions = createWebpackConfig(this.answers, this.defaults);
 			this.options.env.configuration.dev.topScope = [
@@ -62,9 +70,31 @@ module.exports = class WebpackGenerator extends Generator {
 		this.config.set('configuration', this.options.env.configuration);
 		this.fs.extendJSON(this.destinationPath('package.json'), createPackageJson(this.answers));
 		this.fs.extendJSON(this.destinationPath('.babelrc'), createBabelrc());
-		this.fs.extendJSON(this.destinationPath('.babelrc'), createEslintrc());
-		
-		this.templatePath('src/main.js') 
+		this.fs.extendJSON(this.destinationPath('.eslintrc'), createEslintrc());
+
+		const { entry, inFolder: src, publicFolder } = this.answers;
+		const templates = [
+			{ src: 'public/favicon.ico', dist: `${publicFolder}/favicon.ico` },
+			{ src: 'src/main.js', dist: `${src}/${entry}.js` },
+			{ src: 'src/App.vue', dist: `${src}/App.vue` },
+			{ src: 'src/assets/logo.png', dist: `${src}/assets/logo.png` },
+			{ src: 'src/components/HelloWorld.vue', dist: `${src}/components/HelloWorld.vue` },
+			{ src: 'config/.gitignore', dist: '.gitignore'}
+		]
+
+		this.fs.copyTpl(
+			this.templatePath('public/index.html'),
+			this.destinationPath(`${publicFolder}/index.html`),
+			{ title: this.answers.name.toLowerCase() }
+		);
+
+		templates.forEach(template => {
+			this.fs.copyTpl(
+				this.templatePath(template.src),
+				this.destinationPath(template.dist)
+			);
+		})
+
 	}
 
 	install() {
