@@ -2,7 +2,7 @@ module.exports = (answers) => {
 	const { name, entry, inFolder: src, outFolder: dist, publicFolder } = answers;
 
 	return {
-		entry: `"${src}/${entry}.js"`,
+		entry: `"./${src}/${entry}.js"`,
 		mode: '"development"',
 		module: {
 		  rules: [

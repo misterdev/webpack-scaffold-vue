@@ -23,10 +23,10 @@ module.exports = class WebpackGenerator extends Generator {
 		
 		this.defaults = {
 			name: 'my-vue-project',
-			inFolder: './src',
+			inFolder: 'src',
 			entry: 'main',
-			outFolder: './dist',
-			publicFolder: './public'
+			outFolder: 'dist',
+			publicFolder: 'public'
 		}
 	}
 
@@ -42,15 +42,15 @@ module.exports = class WebpackGenerator extends Generator {
 
 		return this.prompt([
 			InputValidate('name', 'You are creating a new Vue project! How do you want to name it? (my-vue-project)', validateName),
-			Input('inFolder', 'Which folder will your source code be in? (./src)'),
+			Input('inFolder', 'Which folder will your source code be in? (src)'),
 			Input('entry', 'Which is the entry point of your app? (main)'),
-			Input('outFolder', 'Which folder will your generated bundles be in? (./dist)'),
-			Input('publicFolder', 'Which folder will your public assets be in? (./public)'),
+			Input('outFolder', 'Which folder will your generated bundles be in? (dist)'),
+			Input('publicFolder', 'Which folder will your public assets be in? (public)'),
 			List('manager', 'Which package manager do you prefer?', ['yarn', 'npm'])
 		]).then (answers => {
 			
 			this.answers = answers;
-			this.answers.name = (answers.name !== '') ? answers.name : this.defaults.name;
+			this.answers.name = (answers.name !== '') ? answers.name.toLowerCase() : this.defaults.name;
 			this.answers.entry = (answers.entry !== '') ? answers.entry : this.defaults.entry;
 			this.answers.inFolder = (answers.inFolder !== '') ? answers.inFolder : this.defaults.inFolder;
 			this.answers.outFolder = (answers.outFolder !== '') ? answers.outFolder : this.defaults.outFolder;
@@ -85,7 +85,7 @@ module.exports = class WebpackGenerator extends Generator {
 		this.fs.copyTpl(
 			this.templatePath('public/index.html'),
 			this.destinationPath(`${publicFolder}/index.html`),
-			{ title: this.answers.name.toLowerCase() }
+			{ title: this.answers.name }
 		);
 
 		templates.forEach(template => {
