@@ -3,9 +3,7 @@
   "version": "1.0.2",
   "description": "Webpack scaffold for vuejs",
   "main": "index.js",
-  "scripts": {
-    "publish": "np"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/misterdev/webpack-scaffold-vue.git"

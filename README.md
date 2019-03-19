@@ -32,5 +32,5 @@ webpack-cli init path/to/webpack-scaffold-vue
 ### Publish
 
 ```bash
-yarn publish
+yarn np
 ```
