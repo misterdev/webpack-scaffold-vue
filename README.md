@@ -1,18 +1,36 @@
-### Recipe
-- Constructor inizializza
-- Install yeoman-generator
+# Webpack Scaffold Vue
+Webpack scaffold to easily setup a Vue project
 
+![version](https://img.shields.io/npm/v/webpack-scaffold-vue.svg)
 
-### Prova scaffold
-- npm link per renderlo disponibile come module npm <- non va
-- yo path
+## Usage
+This package is available on npm, you just need to install webpack-cli and run this inside an empty folder:
 
+```bash
+yarn global add webpack-cli
+webpack-cli init webpack-scaffold-vue
+```
 
-### Input
-https://github.com/webpack/webpack-cli/tree/98818a1970ea1d3bd4a2c4476b577d71674e1b1f/packages/webpack-scaffold
+## Develop
 
-### LifeCycle
-https://yeoman.io/authoring/running-context.html
+Clone this repo and install the dependencies:
 
-### Dependencies
-https://yeoman.io/authoring/dependencies.html
+```bash
+git clone https://github.com/misterdev/webpack-scaffold-vue.git
+cd webpack-scaffold-vue
+yarn
+```
+
+### Try it locally
+
+If you have webpack-cli installed you can run this inside any folder:
+
+```bash
+webpack-cli init path/to/webpack-scaffold-vue
+```
+
+### Publish
+
+```bash
+yarn publish
+```
