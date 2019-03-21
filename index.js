@@ -57,7 +57,7 @@ module.exports = class WebpackGenerator extends Generator {
 			this.answers.publicFolder = (answers.publicFolder !== '') ? answers.publicFolder : this.defaults.publicFolder;
 
 			this.manager[this.answers.manager] = true;
-			this.options.env.configuration.dev.webpackOptions = createWebpackConfig(this.answers, this.defaults);
+			this.options.env.configuration.dev.webpackOptions = createWebpackConfig(this.answers);
 			this.options.env.configuration.dev.topScope = [
 				"const HtmlWebpackPlugin = require('html-webpack-plugin')",
 				"const CopyWebpackPlugin = require('copy-webpack-plugin')",

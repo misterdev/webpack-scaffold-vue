@@ -41,10 +41,10 @@ module.exports = (answers) => {
 		plugins: [
 		  "new VueLoaderPlugin()",
 		  `new HtmlWebpackPlugin({
-			templateParameters: {
-			  PROJECT_NAME: "${name}"
-			},
-			template: './${publicFolder}/index.html',
+				templateParameters: {
+					PROJECT_NAME: "${name}"
+				},
+				template: './${publicFolder}/index.html',
 		  })`,
 		  `new CopyWebpackPlugin([
 			{
@@ -52,7 +52,7 @@ module.exports = (answers) => {
 			  to: './${dist}',
 			  toType: 'dir',
 			  ignore: ['.DS_Store'],
-			},
+			}
 		  ])`,
 		],
 	}
